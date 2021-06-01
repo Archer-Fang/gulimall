@@ -64,3 +64,6 @@ build/
 **/target/
 .idea
 **/.gitignore
+renren-fast-vue/*
+renren-fast/*
+renren-generator/*
