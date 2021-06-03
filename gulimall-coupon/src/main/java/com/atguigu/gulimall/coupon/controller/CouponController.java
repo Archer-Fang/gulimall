@@ -29,6 +29,13 @@ import com.atguigu.common.utils.R;
 public class CouponController {
     @Autowired
     private CouponService couponService;
+    @RequestMapping("/member/list")
+    public R membercoupons(){    //全系统的所有返回都返回R
+        // 应该去数据库查用户对于的优惠券，但这个我们简化了，不去数据库查了，构造了一个优惠券给他返回
+        CouponEntity couponEntity = new CouponEntity();
+        couponEntity.setCouponName("满100-10");//优惠券的名字
+        return R.ok().put("coupons",Arrays.asList(couponEntity));
+    }
 
     /**
      * 列表

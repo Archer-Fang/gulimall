@@ -22,7 +22,8 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-
+**/rebel.xml
+**/rebel-remote.xml
 
 HELP.md
 target/
@@ -67,3 +68,4 @@ build/
 renren-fast-vue/*
 renren-fast/*
 renren-generator/*
+spring-cloud-alibaba/*
