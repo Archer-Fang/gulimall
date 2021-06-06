@@ -7,3 +7,7 @@ spring:
 
 server:
   port: 7003
+
+logging:
+  level:
+    com.atguigu.gulimall.product: debug
