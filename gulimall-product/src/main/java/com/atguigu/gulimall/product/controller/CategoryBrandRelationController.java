@@ -1,14 +1,12 @@
 package com.atguigu.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atguigu.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.atguigu.gulimall.product.service.CategoryBrandRelationService;
@@ -29,6 +27,18 @@ import com.atguigu.common.utils.R;
 public class CategoryBrandRelationController {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+    /**
+     * 获取当前品牌的所有分类列表
+     */
+    @GetMapping("/catelog/list")
+    public R list(@RequestParam("brandId") Long brandId){
+        // 根据品牌id获取其分类信息
+        List<CategoryBrandRelationEntity> data = categoryBrandRelationService.list(
+                new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id",brandId)
+        );
+        return R.ok().put("data", data);
+    }
+// 获得分类列表后再继续进行后面的工作
 
     /**
      * 列表
@@ -56,7 +66,7 @@ public class CategoryBrandRelationController {
      */
     @RequestMapping("/save")
         public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-		categoryBrandRelationService.save(categoryBrandRelation);
+        categoryBrandRelationService.saveDetail(categoryBrandRelation);
 
         return R.ok();
     }
@@ -80,5 +90,10 @@ public class CategoryBrandRelationController {
 
         return R.ok();
     }
-
+    ///product/categorybrandrelation/brands/list
+    @GetMapping("/brands/list")
+    public R getBrandsByCategory(@RequestParam("catId") Long catelogId) {
+        List<CategoryBrandRelationEntity> entities=categoryBrandRelationService.getBrandsByCayId(catelogId);
+        return R.ok().put("data", entities);
+    }
 }

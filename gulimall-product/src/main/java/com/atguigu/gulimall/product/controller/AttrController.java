@@ -40,7 +40,14 @@ public class AttrController {
         return R.ok().put("page", page);
     }
 
+    @RequestMapping("/{attrType}/list/{catelogId}")
+    public R infoCatelog(@RequestParam Map<String, Object> params,
+                         @PathVariable("catelogId") long catelogId,
+                         @PathVariable("attrType") String attrType) {
+        PageUtils page = attrService.queryPage(params,catelogId,attrType);
 
+        return R.ok().put("page", page);
+    }
     /**
      * 信息
      */
