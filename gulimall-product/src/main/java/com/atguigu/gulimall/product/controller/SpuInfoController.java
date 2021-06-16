@@ -31,12 +31,21 @@ public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
 
+//    /**
+//     * 列表
+//     */
+//    @RequestMapping("/list")
+//        public R list(@RequestParam Map<String, Object> params){
+//        PageUtils page = spuInfoService.queryPage(params);
+//
+//        return R.ok().put("page", page);
+//    }
     /**
      * 列表
      */
     @RequestMapping("/list")
-        public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = spuInfoService.queryPage(params);
+    public R list(@RequestParam Map<String, Object> params){
+        PageUtils page = spuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
     }
@@ -63,7 +72,7 @@ public class SpuInfoController {
 //    }
     @RequestMapping("/save")
     public R save(@RequestBody SpuSaveVo spuSaveVo){
-        spuInfoService.saveSpuSaveVo(spuSaveVo);
+        spuInfoService.saveSpuInfo(spuSaveVo);
 
         return R.ok();
     }

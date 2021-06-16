@@ -30,15 +30,25 @@ public class SkuInfoController {
     @Autowired
     private SkuInfoService skuInfoService;
 
+//    /**
+//     * 列表
+//     */
+//    @RequestMapping("/list")
+//        public R list(@RequestParam Map<String, Object> params){
+//        PageUtils page = skuInfoService.queryPage(params);
+//
+//        return R.ok().put("page", page);
+//    }
     /**
      * 列表
      */
     @RequestMapping("/list")
-        public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = skuInfoService.queryPage(params);
+    public R list(@RequestParam Map<String, Object> params){
+        PageUtils page = skuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
     }
+
 
 
     /**
