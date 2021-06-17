@@ -29,7 +29,7 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
 
         return new PageUtils(page);
     }
-
+ 
     @Override
     public void saveProductAttrValueEntities(List<ProductAttrValueEntity> productAttrValueEntities) {
         this.saveBatch(productAttrValueEntities);
