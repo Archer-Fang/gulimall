@@ -1,6 +1,7 @@
 package com.atguigu.gulimall.product.service.impl;
 
 import com.alibaba.nacos.client.utils.StringUtils;
+import com.atguigu.common.constant.ProductConstant;
 import com.atguigu.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.atguigu.gulimall.product.dao.AttrGroupDao;
 import com.atguigu.gulimall.product.dao.CategoryDao;
@@ -10,6 +11,7 @@ import com.atguigu.gulimall.product.entity.CategoryEntity;
 import com.atguigu.gulimall.product.service.CategoryService;
 import com.atguigu.gulimall.product.service.ProductAttrValueService;
 import com.atguigu.gulimall.product.vo.AttrRespVo;
+import com.atguigu.gulimall.product.vo.AttrResponseVo;
 import com.baomidou.mybatisplus.core.assist.ISqlRunner;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Resource
     private ProductAttrValueService productAttrValueService;
-
+    @Resource
+    AttrAttrgroupRelationDao relationDao;
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrEntity> page = this.page(
@@ -157,6 +160,34 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         attrGroupEntities.forEach((entity)->{
             attrAttrgroupRelationDao.insert(entity);
         });
+    }
+
+    @Override
+    public List<Long> selectSearchAttrIds(List<Long> attrIds) {
+        return this.baseMapper.selectSearchAttrIds(attrIds);
+    }
+
+    @Override
+    public AttrResponseVo getAttrInfo(Long attrId) {
+        AttrEntity byId = this.getById(attrId);
+        AttrResponseVo attrResponseVo = new AttrResponseVo();
+        BeanUtils.copyProperties(byId, attrResponseVo);
+
+        AttrAttrgroupRelationEntity relationEntity = relationDao.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", byId.getAttrId()));
+
+        if(ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode() == byId.getAttrType()) {
+            //1. 设置分组信息
+            if (null != relationEntity) {
+                Long attrGroupId = relationEntity.getAttrGroupId();
+                attrResponseVo.setAttrGroupId(attrGroupId);
+                AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrGroupId);
+                if (null != attrGroupEntity) {
+                    attrResponseVo.setGroupName(attrGroupEntity.getAttrGroupName());
+                }
+            }
+        }
+        return attrResponseVo;
+
     }
 
 

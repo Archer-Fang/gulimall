@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.atguigu.gulimall.product.entity.ProductAttrValueEntity;
 import com.atguigu.gulimall.product.service.ProductAttrValueService;
+import com.atguigu.gulimall.product.vo.AttrResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,20 @@ public class AttrController {
     private AttrService attrService;
     @Autowired
     private ProductAttrValueService productAttrValueService;
+
+
+    /**
+     * 信息
+     * 功能：查询属性详情
+     * API：https://easydoc.xyz/doc/75716633/ZUqEdvA4/7C3tMIuF
+     */
+    @RequestMapping("/info/{attrId}")
+    public R info(@PathVariable("attrId") Long attrId){
+        AttrResponseVo responseVo=attrService.getAttrInfo(attrId);
+
+        return R.ok().put("attr", responseVo);
+    }
+
     /* 功能：根据spuId信息查询出对应的规格参数信息
        API：https://easydoc.xyz/doc/75716633/ZUqEdvA4/GhhJhkg7
      */
@@ -68,15 +83,15 @@ public class AttrController {
 
         return R.ok().put("page", page);
     }
-    /**
-     * 信息
-     */
-    @RequestMapping("/info/{attrId}")
-        public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
-
-        return R.ok().put("attr", attr);
-    }
+//    /**
+//     * 信息
+//     */
+//    @RequestMapping("/info/{attrId}")
+//    public R info(@PathVariable("attrId") Long attrId){
+//        AttrEntity attr = attrService.getById(attrId);
+//
+//        return R.ok().put("attr", attr);
+//    }
 
     /**
      * 保存

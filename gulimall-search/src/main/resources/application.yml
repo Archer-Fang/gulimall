@@ -1,0 +1,14 @@
+server:
+  port: 12000
+
+spring:
+  thymeleaf:
+    cache: false
+
+
+logging:
+  level:
+    com.bigdata.gulimall.search: debug
+    root: warn
+  pattern:
+    console: "%d{yyyy-MM-dd} [%thread] - %msg%n"
